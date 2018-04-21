@@ -1,0 +1,412 @@
+<html>
+<head>
+	<title>demo socket.io</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="body-wrapper">
+
+	<div class="room-wrapper panel">
+		<div class="panel-heading">
+			<h3>CHAT ROOM</h3>
+		</div>
+		<div class="panel-body">
+			<div class="scrollableArea">
+				<div class="scrollableAreaWrap">
+					<div class="scrollableAreaContent">
+						<ul class="message-room-list">
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="send-message-form">
+				<div class="body-form">
+					<form id="room-form" name="room-form" action="" method="post" onsubmit="return false;">
+						<div class="textarea">
+							<textarea placeholder="Write your message..." name="room_message_content" id="room_message_content" rows="5"></textarea>
+						</div>
+						<div class="btn">
+							<button type="submit" class="btn" id="roomSendBtn">Send</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="friends-wrapper panel">
+		<div class="panel-heading">
+			<span class="auth">Hello, <span id="authName">Iker Casillas</span></span>
+			<a id="logoutBtn" class="logout" href="javascript:;">Logout</a>
+		</div>
+		<div class="panel-body">
+			<ul class="users-list" id="friendsList">
+									<li class="user1">
+					<a data-id="1">
+						<span class="img"> <img alt="" src="images/avatars/1.jpg"> </span>
+						<span class="name">Iker Casillas</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user2">
+					<a data-id="2">
+						<span class="img"> <img alt="" src="images/avatars/2.jpg"> </span>
+						<span class="name">Varane</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user3">
+					<a data-id="3">
+						<span class="img"> <img alt="" src="images/avatars/3.jpg"> </span>
+						<span class="name">Isco</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user4">
+					<a data-id="4">
+						<span class="img"> <img alt="" src="images/avatars/4.jpg"> </span>
+						<span class="name">Ramos</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user5">
+					<a data-id="5">
+						<span class="img"> <img alt="" src="images/avatars/5.jpg"> </span>
+						<span class="name">Marcelo</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user6">
+					<a data-id="6">
+						<span class="img"> <img alt="" src="images/avatars/6.jpg"> </span>
+						<span class="name">Di Maria</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user7">
+					<a data-id="7">
+						<span class="img"> <img alt="" src="images/avatars/7.jpg"> </span>
+						<span class="name">Ronaldo</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user8">
+					<a data-id="8">
+						<span class="img"> <img alt="" src="images/avatars/8.jpg"> </span>
+						<span class="name">Kaka</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user9">
+					<a data-id="9">
+						<span class="img"> <img alt="" src="images/avatars/9.jpg"> </span>
+						<span class="name">Benzema</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user10">
+					<a data-id="10">
+						<span class="img"> <img alt="" src="images/avatars/10.jpg"> </span>
+						<span class="name">Ozil</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user11">
+					<a data-id="11">
+						<span class="img"> <img alt="" src="images/avatars/11.jpg"> </span>
+						<span class="name">Higuain</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user12">
+					<a data-id="12">
+						<span class="img"> <img alt="" src="images/avatars/12.jpg"> </span>
+						<span class="name">ILLarra</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+									<li class="user13">
+					<a data-id="13">
+						<span class="img"> <img alt="" src="images/avatars/13.jpg"> </span>
+						<span class="name">Modric</span>
+						<span class="status hide">Online</span>
+					</a>
+				</li>
+								</ul>
+		</div>
+	</div>
+</div>
+	<!-- Windows Chat -->
+	<div class="windows-wrapper">
+		<div class="container">
+			<div class="ChatTabsPagelet">
+				<ul class="windowsChat" id="windowsChat">
+
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- LOGIN POPUP-->
+	<div id="Popup" class="popup-wrapper block" style="display: block;">
+		<div class="popup-dialog">
+			<div class="popup-content">
+				<div class="popup-header">
+					<h4>LOGIN</h4>
+				</div>
+				<div class="popup-body">
+                    <div class="loginWrapper">
+						<ul class="users-list" id="usersList">
+														<li class="user1">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/1.jpg"></span>
+									<span class="name">Iker Casillas</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="1">Use</a>
+								</div>
+							</li>
+														<li class="user2">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/2.jpg"></span>
+									<span class="name">Varane</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="2">Use</a>
+								</div>
+							</li>
+														<li class="user3">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/3.jpg"></span>
+									<span class="name">Isco</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="3">Use</a>
+								</div>
+							</li>
+														<li class="user4">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/4.jpg"></span>
+									<span class="name">Ramos</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="4">Use</a>
+								</div>
+							</li>
+														<li class="user5">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/5.jpg"></span>
+									<span class="name">Marcelo</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="5">Use</a>
+								</div>
+							</li>
+														<li class="user6">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/6.jpg"></span>
+									<span class="name">Di Maria</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="6">Use</a>
+								</div>
+							</li>
+														<li class="user7">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/7.jpg"></span>
+									<span class="name">Ronaldo</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="7">Use</a>
+								</div>
+							</li>
+														<li class="user8">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/8.jpg"></span>
+									<span class="name">Kaka</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="8">Use</a>
+								</div>
+							</li>
+														<li class="user9">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/9.jpg"></span>
+									<span class="name">Benzema</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="9">Use</a>
+								</div>
+							</li>
+														<li class="user10">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/10.jpg"></span>
+									<span class="name">Ozil</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="10">Use</a>
+								</div>
+							</li>
+														<li class="user11">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/11.jpg"></span>
+									<span class="name">Higuain</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="11">Use</a>
+								</div>
+							</li>
+														<li class="user12">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/12.jpg"></span>
+									<span class="name">ILLarra</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="12">Use</a>
+								</div>
+							</li>
+														<li class="user13">
+								<div>
+									<span class="img"> <img alt="" src="images/avatars/13.jpg"></span>
+									<span class="name">Modric</span>
+									<a class="use" title="Use this account" href="javascript:;" data-id="13">Use</a>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+					<div class="popup-loading">
+						<div class="loading-container"></div>
+					</div>
+					<div class="popup-error">
+						<div class="error-container">Opp! Something went wrong. Please Try Again.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script id="templateChatMessageFriend" type="text/x-handlebars-template">
+<div class="message clearfix" data-id="{ID}">
+	<div class="avatar">
+		<img src="images/avatars/{AVATAR}" alt="{NAME}" width="32" height="32">
+	</div>
+	<div class="msg-body">
+		<div class="kso">
+			<span>{MESSAGE}</span>
+		</div>
+	</div>
+</div>
+</script>
+
+<script id="templateChatMessageMe" type="text/x-handlebars-template">
+<div class="message clearfix me">
+	<div class="msg-body">
+		<div class="kso">
+			<span>{MESSAGE}</span>
+		</div>
+	</div>
+</div>
+</script>
+<script id="templateChatWindow" type="text/x-handlebars-template">
+<li id="chat{ID}" data-id="{ID}">
+	<div class="layoutInner">
+		<div class="titleBar clearfix ">
+			<h4>{NAME}</h4>
+			<i class="close"></i>
+		</div>
+		<div class="layoutBody">
+			<div class="conversation">
+
+			</div>
+			<div class="typing" style="display: none;">
+				<div class="message clearfix">
+					<div class="avatar">
+						<img src="{AVATAR}" alt="{NAME}" width="32" height="32">
+					</div>
+					<div class="bg"></div>
+				</div>
+			</div>
+			<!-- <div class="viewed">
+				<i></i> Đã xem lúc <span></span>
+			</div> -->
+		</div>
+		<div class="layoutSubmit">
+			<input name="message" class="input">
+			<div class="iconWrap">
+				<div class="emoticonsPanel">
+					<a title="Choose a sticker" class="toggleIcon"><i class="emoteToggler"></i></a>
+					<div class="iconLayout">
+						<div class="iconLists">
+							<div class="iconItem">
+								<a class="icon icon_smile" title="smile"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_frown" title="frown"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_tongue" title="tongue"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_grin" title="grin"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_gasp" title="gasp"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_wink" title="wink"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_pacman" title="pacman"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_grumpy" title="grumpy"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_unsure" title="unsure"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_cry" title="cry"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_kiki" title="kiki"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_glasses" title="glasses"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_sunglasses" title="sunglasses"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_heart" title="heart"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_devil" title="devil"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_angel" title="angel"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_squint" title="squint"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_confused" title="confused"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_upset" title="upset"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_colonthree" title="colonthree"></a>
+							</div>
+							<div class="iconItem">
+								<a class="icon icon_like" title="like"></a>
+							</div>
+						</div>
+						<div class="layoutArrow"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>
+</script>
+
+<script id="templateRoomMessage" type="text/x-handlebars-template">
+<li class="message">
+	<div class="clearfix">
+		<div class="avatar">
+			<img src="images/avatars/{AVATAR}" alt="{NAME}" width="32" height="32">
+		</div>
+		<div class="content clearfix">
+			<div class="created">
+				<i></i> <span>{CREATED}</span>
+			</div>
+			<div>
+				<div class="fullname">{NAME}</div>
+				<div class="msg">{MESSAGE}</div>
+			</div>
+		</div>
+	</div>
+</li>
+</script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="https://tienchat.herokuapp.com/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
